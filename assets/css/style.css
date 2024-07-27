@@ -1,0 +1,19 @@
+body {
+  margin: 3rem;
+  font-family: "Karla", sans-serif;
+  background-color: #fafafafa;
+  color:#363535;
+}
+
+* {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+
+}
+h1 {
+  font-weight: 700;
+}
+
+li {
+  background-color: #c9f5edfa;
+}

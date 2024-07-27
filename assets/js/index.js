@@ -1,6 +1,7 @@
-document.write('<p>Estadisticas centro medico ñuñoa</p>');
-// const atencion = {hora: ' ', especialista: ' ', paciente: ' ', rut: ' ', prevision: ' '}
+//Define el objeto atención médica.
+let atencion = {hora: ' ', especialista: ' ', paciente: ' ', rut: ' ', prevision: ' '}
 
+// Define el arreglo Radiología.
 const radiologia = [
     {hora: '11:00', especialista: 'IGNACIO SCHULZ', paciente: 'FRANCISCA ROJAS', rut: '9878782-1', prevision: 'FONASA'},
     {hora: '11:30', especialista: 'FEDERICO SUBERCASEAUX', paciente: 'PAMELA ESTRADA', rut: '15345241-3', prevision: 'ISAPRE'},
@@ -9,6 +10,7 @@ const radiologia = [
     {hora: '16:00', especialista: 'PATRICIA SUAZO', paciente: 'RAMON ULLOA', rut: '14989389-K', prevision: 'FONASA'},
 ];
 
+// Define el arreglo Traumatología.
 const traumatologia = [
     {hora: '8:00',  especialista: 'MARIA PAZ ALTUZARRA', paciente: 'PAULA SANCHEZ',     rut: '15554774-5', prevision: 'FONASA'},
     {hora: '10:00', especialista: 'RAUL ARAYA',          paciente: 'ANGÉLICA NAVAS',    rut: '15444147-9', prevision: 'ISAPRE'},
@@ -19,17 +21,17 @@ const traumatologia = [
     {hora: '12:30', especialista: 'ANDRES KANACRI',      paciente: 'MARCIAL SUAZO',     rut: '11254785-5', prevision: 'ISAPRE'},
 ];
 
-
+// Define el arreglo Dental.
 const dental = [
     {hora: '8:30',  especialista: 'ANDREA ZUÑIGA',          paciente: 'MARCELA RETAMAL',rut: '11123425-6', prevision: 'ISAPRE'},
     {hora: '11:00', especialista: 'MARIA PIA ZAÑARTU',      paciente: 'ANGEL MUÑOZ',    rut: '9878789-2',  prevision: 'ISAPRE'},
-    {hora: '11:30', especialista: 'SCARLETT WITTING',       paciente: 'MARIO KAST',     rut: '7998789-5',  prevision: 'FONASA'},
+    {hora: '11:30', especialista: 'SCARLETT WITTING',       paciente: 'MARIO MORENO',     rut: '7998789-5',  prevision: 'FONASA'},
     {hora: '13:00', especialista: 'FRANCISCO VON TEUBER',   paciente: 'KARIN FERNANDEZ',rut: '18887662-K', prevision: 'FONASA'},
     {hora: '13:30', especialista: 'EDUARDO VIÑUELA',        paciente: 'HUGO SANCHEZ',   rut: '17665461-4', prevision: 'FONASA'},
     {hora: '14:00', especialista: 'RAQUEL VILLASECA',       paciente: 'ANA SEPULVEDA',  rut: '14441281-0', prevision: 'ISAPRE'},
 ];
 
-// 1. Agrega nuevas atenciones a traumatología
+// 1. Agrega nuevas atenciones a traumatología.
 traumatologia.push(
   {hora: '09:00', especialista: 'RENÉ POBLETE', paciente: 'ANA GELLONA', rut: '13123329-7', prevision: 'ISAPRE'},
   {hora: '09:30', especialista: 'MARÍA SOLAR', paciente: 'RAMIRO ANDRADE', rut: '12145451-K', prevision: 'FONASA'},
@@ -39,13 +41,12 @@ traumatologia.push(
 ); 
 console.log(traumatologia);
 
-// 2. Eliminar y agregar la primera y última atención a radiología
+// 2. Elimina y agrega la primera y última atención a radiología.
 radiologia.pop()
 radiologia.shift()
 console.log(radiologia)
 
-//Muestra tabla dental
-
+// 3. Muestra lista atenciones dentales.
 let atencionesDental = ''
   for(let atencion of dental) { 
     atencionesDental += `
@@ -54,73 +55,48 @@ let atencionesDental = ''
 document.getElementById("atencionesDental").innerHTML = atencionesDental;
 };
 
+// 4. Muestra listado total de pacientes atendidos en el Centro Médico.
+let listaPacientes = ''
+let totalAtenciones = radiologia.concat(traumatologia, dental);
+for(let atencion of totalAtenciones) {
+  listaPacientes+= `
+<li style= "list-style-type: none;">${atencion.paciente}</li><br>`;
+
+}
+document.getElementById("listaPacientes").innerHTML = listaPacientes;
 
 
-// // Añade pacientes a Traumatología
-// const mostrarAtenciones = (atenciones, tablaId) => {
-//   let filas = '';
-//   for (let atencion of atenciones) {
-//     filas += `
-//     <tr>
-//     <td>${atencion.hora}</td>
-//     <td> - </td>
-//     <td>${atencion.especialista}</td>
-//     <td> - </td>
-//     <td>${atencion.paciente}</td>
-//     <td> - </td>
-//     <td>${atencion.rut}</td>
-//     <td> - </td>
-//     <td>${atencion.prevision}</td>
-//   </tr>
-//    <p></p>
-//   `;
-// }
-// document.getElementById(tablaId).innerHTML = filas;
-// };
-// //Concatenación de arreglos.
-// const mostrarTodo = () => {
-//  mostrarAtenciones(traumatologia, "traumatologia", )
-  
-//  let totalAtenciones = [...dental, ...traumatologia, ...radiologia];
+ // 5. Filtra pacientes con previsión Isapre.
+let listaIsapreDental = ''
+let previsionesTipoDental = dental.filter(function(atencion) {
+  return atencion.prevision === "ISAPRE";
+});
+for( let atencion of previsionesTipoDental) {
+  listaIsapreDental+= `
+  <li style= "list-style-type: none;">${atencion.paciente} - ${atencion.prevision}</li><br>`;
+} 
+document.getElementById("listaIsapreDental").innerHTML = listaIsapreDental
 
-//  let pacientes = totalAtenciones.reduce((lista,atencion)=> {
-//   return lista + `<p>${atencion.paciente}</p>`;
-// }, '');
+ // 6. Filtra pacientes con previsión Fonasa de traumatología.
+ let listaFonasaTraumatologia = ''
+ let previsionesTipoTraumatologia = traumatologia.filter(function(atencion) {
+   return atencion.prevision === "FONASA";
+ });
+ for( let atencion of previsionesTipoTraumatologia) {
+   listaFonasaTraumatologia+= `
+   <li style= "list-style-type: none;">${atencion.paciente} - ${atencion.prevision}</li><br>`;
+ }
 
-// document.getElementById("listaPacientes").innerHTML = pacientes;
-// console.log( totalAtenciones)
-// };
-// mostrarTodo();
+document.getElementById("listaFonasaTraumatologia").innerHTML = listaFonasaTraumatologia
 
-//Filtro nombre paciente previsión isapre
-const isapreAtenciones = totalAtenciones.filter(atencion => atencion.prevision === "ISAPRE");
- 
+// Otras estadisticas.
+document.write("<h2>Otras Estadisticas</h2>");
+// Muestra el largo de los arreglos.
+document.write(`<p style= "background-color: #c9f5edfa;" >Cantidad de atenciones para Radiología: ${radiologia.length}</p>`);
+document.write(`<p style= "background-color: #c9f5edfa;" >Cantidad de atenciones para Traumatología: ${traumatologia.length}</p>`);
+document.write(`<p style= "background-color: #c9f5edfa;" >Cantidad de atenciones para Dental: ${dental.length}</p>`);
 
-
-
-// // Listado del total de pacientes
-// let pacientes = totalAtenciones.reduce((lista, atencion)=> {
-//   return lista + `<p>${atencion.paciente}</p>`;
-// }, '');
-
-// document.getElementById("listaPacientes").innerHTML = pacientes;
-
-
-//Elimina primer y ultimo paciente de radiología.
-
-
-
-
-
-
-
-
-
-// document.write(`<p>Cantidad de atenciones para Radiología: ${radiologia.length}</p>`);
-// document.write(`<p>Cantidad de atenciones para Traumatología: ${traumatologia.length}</p>`);
-// document.write(`<p>Cantidad de atenciones para Dental: ${dental.length}</p>`);
-
-
-// document.write(`<p>Primera atencion: ${radiologia[0].paciente} - ${radiologia[0].prevision} | Última atención: ${radiologia[radiologia.length -1].paciente} - ${radiologia[radiologia.length -1].prevision}.</p>`);
-// document.write(`<p>Primera atencion: ${traumatologia[0].paciente} - ${traumatologia[0].prevision} | Última atención: ${traumatologia[traumatologia.length -1].paciente} - ${traumatologia[traumatologia.length -1].prevision}.</p>`);
-// document.write(`<p>Primera atencion: ${dental[0].paciente} - ${dental[0].prevision} | Última atención: ${dental[dental.length -1].paciente} - ${dental[dental.length -1].prevision}.</p>`);
+// Muestra la primera y la última atención de las diferentes especialidades.
+document.write(`<p style= "background-color: #c9f5edfa;" >Primera atencion: ${radiologia[0].paciente} - ${radiologia[0].prevision} | Última atención: ${radiologia[radiologia.length -1].paciente} - ${radiologia[radiologia.length -1].prevision}.</p>`);
+document.write(`<p style= "background-color: #c9f5edfa;" >Primera atencion: ${traumatologia[0].paciente} - ${traumatologia[0].prevision} | Última atención: ${traumatologia[traumatologia.length -1].paciente} - ${traumatologia[traumatologia.length -1].prevision}.</p>`);
+document.write(`<p style= "background-color: #c9f5edfa;" >Primera atencion: ${dental[0].paciente} - ${dental[0].prevision} | Última atención: ${dental[dental.length -1].paciente} - ${dental[dental.length -1].prevision}.</p>`);
